@@ -1,4 +1,4 @@
-module S3_SDK
+module github.com/sonyamoonglade/s3-yandex-go
 
 go 1.18
 
