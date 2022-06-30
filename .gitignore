@@ -5,3 +5,4 @@ upload
 credentials
 .idea
 .env
+Makefile
