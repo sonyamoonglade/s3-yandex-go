@@ -41,7 +41,35 @@ func (y *YandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
 	if err != nil {
 		return err
 	}
-	y.logger.Println(fmt.Sprintf("[YANDEX S3] put file from '%s%s' into-> '%s'. bucket - %s", inp.FilePath, inp.FileName, inp.Destination, y.bucket))
+	if y.debug {
+		y.logger.Println(fmt.Sprintf("[YANDEX S3] put file from '%s%s' into-> '%s'. bucket - %s", inp.FilePath, inp.FileName, inp.Destination, y.bucket))
+	}
+	return nil
+}
+
+func (y *YandexS3Client) PutFileWithBytes(ctx context.Context, inp *PutFileWithBytesInput) error {
+
+	fullDestPath := inp.Destination + inp.FileName
+
+	length := int64(len(*inp.FileBytes))
+	body := bytes.NewReader(*inp.FileBytes)
+
+	_, err := y.client.PutObject(ctx, &s3.PutObjectInput{
+		Bucket:              &y.bucket,
+		Key:                 &fullDestPath,
+		Body:                body,
+		ContentType:         &inp.ContentType,
+		ExpectedBucketOwner: &y.owner,
+		GrantRead:           &grant,
+		ContentLength:       length,
+	})
+
+	if err != nil {
+		return err
+	}
+	if y.debug {
+		y.logger.Println(fmt.Sprintf("[YANDEX S3] put file with bytes '%s' into-> '%s'. bucket - %s", inp.FileName, inp.Destination, y.bucket))
+	}
 	return nil
 }
 

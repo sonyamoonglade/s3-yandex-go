@@ -32,6 +32,13 @@ type PutFileInput struct {
 	ContentType string
 }
 
+type PutFileWithBytesInput struct {
+	ContentType string
+	FileName    string
+	Destination string
+	FileBytes   *[]byte
+}
+
 type DeleteFileInput struct {
 	FileName    string
 	Destination string
