@@ -68,7 +68,7 @@ func (y *YandexS3Client) PutFileWithBytes(ctx context.Context, inp *PutFileWithB
 		return err
 	}
 	if y.debug {
-		y.logger.Println(fmt.Sprintf("[YANDEX S3] put file with bytes '%s' into-> '%s'. bucket - %s", inp.FileName, inp.Destination, y.bucket))
+		y.logger.Println(fmt.Sprintf("[YANDEX S3] put file WithBytes '%s' into-> '%s'. bucket - %s", inp.FileName, inp.Destination, y.bucket))
 	}
 	return nil
 }
