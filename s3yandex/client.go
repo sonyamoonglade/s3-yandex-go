@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-type yandexS3Client struct {
+type YandexS3Client struct {
 	client *s3.Client
 	bucket string
 	owner  string
@@ -19,7 +19,7 @@ type yandexS3Client struct {
 	logger *log.Logger
 }
 
-func (y *yandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
+func (y *YandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
 
 	fileBytes, err := GetFileBytes(inp.FilePath, inp.FileName)
 	if err != nil {
@@ -45,7 +45,7 @@ func (y *yandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
 	return nil
 }
 
-func (y *yandexS3Client) DeleteFile(ctx context.Context, inp *DeleteFileInput) error {
+func (y *YandexS3Client) DeleteFile(ctx context.Context, inp *DeleteFileInput) error {
 
 	fullPath := inp.Destination + inp.FileName
 
@@ -61,7 +61,7 @@ func (y *yandexS3Client) DeleteFile(ctx context.Context, inp *DeleteFileInput) e
 	return nil
 }
 
-func (y *yandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
+func (y *YandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 
 	result, err := y.client.ListObjectsV2(ctx, &s3.ListObjectsV2Input{
 		Bucket:              &y.bucket,
@@ -113,7 +113,7 @@ func (y *yandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 
 }
 
-func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig YandexS3Config) *yandexS3Client {
+func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig YandexS3Config) *YandexS3Client {
 	logger := log.New(os.Stdout, "[DEBUG] ", 0)
 	// setting custom resolver that is specific for yandexcloud
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
@@ -145,7 +145,7 @@ func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig YandexS3Conf
 	}
 
 	// creating wrapper-client
-	client := &yandexS3Client{
+	client := &YandexS3Client{
 		client: s3client,
 		owner:  yndxConfig.Owner,
 		debug:  yndxConfig.Debug,

@@ -1,0 +1,41 @@
+[33mcommit 68538b8a8eb6bb99394b08833d9bdf62f5a489ef[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Thu Jun 30 14:14:45 2022 +0400
+
+    changed publicity of client
+
+[33mcommit b1ed51388618d08d7d3e3ffc267bfc212c3a8000[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Thu Jun 30 14:00:14 2022 +0400
+
+    file change
+
+[33mcommit 3ba483bde9846cf91f3c863806e8230b34db09ca[m[33m ([m[1;33mtag: v1.0.1[m[33m)[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Thu Jun 30 13:57:16 2022 +0400
+
+    redir
+
+[33mcommit 77132801439a0a51073f0f7c71470824c975fa01[m[33m ([m[1;33mtag: v1.0.0[m[33m)[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Thu Jun 30 13:44:46 2022 +0400
+
+    added md, fixed client
+
+[33mcommit df18619223d1b94701f8791543608ba4a4f149ae[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Thu Jun 30 13:39:08 2022 +0400
+
+    implemented get and delete methods. Added typings.
+
+[33mcommit 378e91fca2b11982a8ae8cb9528ad4e77d9a6f81[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Wed Jun 29 23:08:10 2022 +0400
+
+    implemented nice and clean file structure. Implemented logging, error handling and put file wrapper method. Added .env example
+
+[33mcommit 300f72d17c6ab695b8e4eac76698e9f60b054f4a[m
+Author: ыÑsonyamoonglade <aalexandrovich.hireme@gmail.com>
+Date:   Wed Jun 29 21:45:34 2022 +0400
+
+    initial commit. Can add files. Working on structure
