@@ -13,6 +13,9 @@ const (
 	ImageJPG = "image/jpeg"
 	ImagePNG = "image/png"
 	FontTTF  = "font/ttf"
+	JPG      = ".jpg"
+	PNG      = ".png"
+	TTF      = ".ttf"
 )
 
 var (
@@ -29,8 +32,30 @@ type PutFileInput struct {
 	ContentType string
 }
 
+type DeleteFileInput struct {
+	FileName    string
+	Destination string
+}
+
 type YandexS3Config struct {
 	Owner  string
 	Bucket string
 	Debug  bool
+}
+
+type File struct {
+	Name        string
+	Extension   string
+	Size        int64
+	Destination string
+}
+
+type Storage struct {
+	Images []*File
+	Fonts  []*File
+}
+
+func NewStorage() *Storage {
+
+	return &Storage{Images: []*File{}, Fonts: []*File{}}
 }

@@ -18,6 +18,7 @@ func GetFileBytes(path string, filename string) ([]byte, error) {
 			return nil, err
 		}
 	}
+
 	return fileBytes, nil
 }
 func GetFileNameByExt(file string, ext string) (string, bool) {
