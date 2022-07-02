@@ -141,7 +141,7 @@ func (y *YandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 
 }
 
-func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig YandexS3Config) *YandexS3Client {
+func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig *YandexS3Config) *YandexS3Client {
 	logger := log.New(os.Stdout, "[DEBUG] ", 0)
 	// setting custom resolver that is specific for yandexcloud
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
