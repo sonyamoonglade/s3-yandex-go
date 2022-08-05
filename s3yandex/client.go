@@ -19,6 +19,7 @@ type YandexS3Client struct {
 	logger *log.Logger
 }
 
+// PutFile puts locally based file
 func (y *YandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
 
 	fileBytes, err := GetFileBytes(inp.FilePath, inp.FileName)
@@ -47,6 +48,7 @@ func (y *YandexS3Client) PutFile(ctx context.Context, inp *PutFileInput) error {
 	return nil
 }
 
+//PutFileWithBytes puts file received from request-body
 func (y *YandexS3Client) PutFileWithBytes(ctx context.Context, inp *PutFileWithBytesInput) error {
 
 	fullDestPath := inp.Destination + inp.FileName
@@ -101,8 +103,8 @@ func (y *YandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 	}
 
 	data := make(chan *File, len(result.Contents))
+
 	storage := NewStorage()
-	mimetypes := []string{PNG, JPG, TTF}
 
 	go func(data chan *File) {
 		for mimeIdx, mime := range mimetypes {
@@ -113,10 +115,11 @@ func (y *YandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 					continue
 				}
 				file := &File{
-					Name:        name,
-					Extension:   mime,
-					Size:        r.Size,
-					Destination: dest,
+					Name:         name,
+					Extension:    mime,
+					Size:         r.Size,
+					Destination:  dest,
+					LastModified: r.LastModified,
 				}
 				data <- file
 			}
@@ -141,22 +144,22 @@ func (y *YandexS3Client) GetFiles(ctx context.Context) (*Storage, error) {
 
 }
 
-func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig *YandexS3Config) *YandexS3Client {
+func NewYandexS3Client(ctx context.Context, provider aws.CredentialsProvider, yndxConfig *YandexS3Config) *YandexS3Client {
 	logger := log.New(os.Stdout, "[DEBUG] ", 0)
-	// setting custom resolver that is specific for yandexcloud
+	// Set custom resolver that is specific for yandexcloud
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		return aws.Endpoint{
-			PartitionID:   "yc",
-			URL:           "https://storage.yandexcloud.net",
-			SigningRegion: "us-east-1",
+			PartitionID:   PartitionID,
+			URL:           BaseURl,
+			SigningRegion: BaseRegion,
 		}, nil
 	})
 	if yndxConfig.Debug {
 		logger.Println("[YANDEX S3] initialized resolver")
 	}
-	//loading config with custom cred. provider
+	//Load config with credentials provider
 	cfg, err := config.LoadDefaultConfig(
-		context.TODO(),
+		ctx,
 		config.WithEndpointResolverWithOptions(customResolver),
 		config.WithCredentialsProvider(provider))
 	if err != nil {
@@ -165,14 +168,14 @@ func NewYandexS3Client(provider aws.CredentialsProvider, yndxConfig *YandexS3Con
 	if yndxConfig.Debug {
 		logger.Println("[YANDEX S3] initialized configs and credential providers")
 	}
-	// creating s3 client
+	//Create s3 client
 	s3client := s3.NewFromConfig(cfg)
 
 	if yndxConfig.Debug {
 		logger.Println("[YANDEX S3] initialized s3 Client")
 	}
 
-	// creating wrapper-client
+	//Create wrapper-client
 	client := &YandexS3Client{
 		client: s3client,
 		owner:  yndxConfig.Owner,
