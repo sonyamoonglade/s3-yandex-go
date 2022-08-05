@@ -2,6 +2,7 @@ package s3yandex
 
 import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"time"
 )
 
 const (
@@ -9,13 +10,19 @@ const (
 	SECRET_KEY = "AWS_SECRET_ACCESS_KEY"
 )
 
+//Feel free to add more types
 const (
-	ImageJPG = "image/jpeg"
-	ImagePNG = "image/png"
-	FontTTF  = "font/ttf"
-	JPG      = ".jpg"
-	PNG      = ".png"
-	TTF      = ".ttf"
+	JPG = ".jpg"
+	PNG = ".png"
+	TTF = ".ttf"
+)
+
+var mimetypes = []string{PNG, JPG, TTF}
+
+const (
+	BaseURl     = "https://storage.yandexcloud.net"
+	PartitionID = "yc"
+	BaseRegion  = "us-east-1"
 )
 
 var (
@@ -51,10 +58,11 @@ type YandexS3Config struct {
 }
 
 type File struct {
-	Name        string
-	Extension   string
-	Size        int64
-	Destination string
+	Name         string
+	Extension    string
+	Size         int64
+	Destination  string
+	LastModified *time.Time
 }
 
 type Storage struct {
@@ -63,6 +71,5 @@ type Storage struct {
 }
 
 func NewStorage() *Storage {
-
 	return &Storage{Images: []*File{}, Fonts: []*File{}}
 }

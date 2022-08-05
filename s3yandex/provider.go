@@ -13,6 +13,7 @@ type EnvProvider struct {
 func NewEnvCredentialsProvider() *EnvProvider {
 	return &EnvProvider{}
 }
+
 func (p *EnvProvider) Retrieve(ctx context.Context) (aws.Credentials, error) {
 
 	accessId := os.Getenv(ACCESS_ID)
